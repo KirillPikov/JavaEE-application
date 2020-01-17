@@ -1,0 +1,97 @@
+package com.mediasoft.bookstore.author.ejb;
+
+import com.mediasoft.bookstore.author.dao.AbstractAuthorDao;
+import com.mediasoft.bookstore.author.entity.Author;
+import com.mediasoft.bookstore.book.entity.Book;
+import com.mediasoft.bookstore.common.exception.EntityNotFoundException;
+import com.mediasoft.bookstore.common.pageable.Pageable;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import java.util.List;
+
+@Stateless
+public class AuthorEjbImpl implements AuthorEjbLocal, AuthorEjbRemote {
+
+    @Inject
+    private AbstractAuthorDao authorDao;
+
+    /**
+     * Получение автора по его ID.
+     *
+     * @param authorId ID автора, которого хотим получить.
+     * @return Автора с указанным ID.
+     * @throws EntityNotFoundException
+     */
+    @Override
+    public Author getAuthor(Long authorId) throws EntityNotFoundException {
+        return authorDao.findById(authorId)
+                .orElseThrow(
+                        () -> {
+                            throw new EntityNotFoundException("Author with id = " + authorId + " - not found.");
+                        }
+                );
+    }
+
+    /**
+     * Получние списка всех авторов.
+     *
+     * @param pageable настройка страницы.
+     * @return
+     */
+    @Override   //TODO Criteria or JPQL
+    public List<Author> getAuthorsPage(Pageable pageable) {
+        return null;
+    }
+
+    /**
+     * Добавление нового автора.
+     *
+     * @param author новый автор.
+     */
+    @Override
+    public void addAuthor(Author author) {
+        authorDao.save(author);
+    }
+
+    /**
+     * Изменение состояние автора.
+     *
+     * @param authorId ID автора.
+     * @param author   новое состояние автора.
+     * @throws EntityNotFoundException
+     */
+    @Override
+    public void updateAuthor(Long authorId, Author author) throws EntityNotFoundException {
+        authorDao.findById(authorId)
+                .ifPresentOrElse(
+                        repoAuthor -> {
+                            List<Book> books = repoAuthor.getBooks();
+                            repoAuthor = author;
+                            repoAuthor.setId(authorId);
+                            repoAuthor.setBooks(books);
+                            authorDao.save(repoAuthor);
+                        }, () -> {
+                            throw new EntityNotFoundException("Author with id = " + author.getId() + " - not found.");
+                        }
+                );
+    }
+
+    /**
+     * Удаление автора по ID.
+     *
+     * @param authorId ID автора.
+     * @throws EntityNotFoundException
+     */
+    @Override
+    public void deleteAuthor(Long authorId) throws EntityNotFoundException {
+        /* Проверяем существование автора с таким ID */
+        if(authorDao.existsById(authorId)) {
+            /* Если существует - удаляем */
+            authorDao.deleteById(authorId);
+        } else {
+            /* Иначе выбрасываем исключение */
+            throw new EntityNotFoundException("Author with id = " + authorId + " - not found.");
+        }
+    }
+}
