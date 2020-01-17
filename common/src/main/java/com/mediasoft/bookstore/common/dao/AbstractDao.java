@@ -1,6 +1,7 @@
 package com.mediasoft.bookstore.common.dao;
 
-import javax.annotation.sql.DataSourceDefinition;
+import com.mediasoft.bookstore.common.entity.AbstractEntity;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import java.util.Optional;
  * @param <Entity>
  * @param <Id>
  */
-public abstract class AbstractDao<Entity extends Serializable, Id extends Serializable> {
+public abstract class AbstractDao<Entity extends AbstractEntity, Id extends Serializable> {
 
     @PersistenceContext(unitName = "bookstore")
     protected EntityManager entityManager;
