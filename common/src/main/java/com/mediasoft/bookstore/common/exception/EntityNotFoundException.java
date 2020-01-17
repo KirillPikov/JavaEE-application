@@ -1,0 +1,8 @@
+package com.mediasoft.bookstore.common.exception;
+
+public class EntityNotFoundException extends RuntimeException {
+
+    public EntityNotFoundException(String message) {
+        super(message);
+    }
+}

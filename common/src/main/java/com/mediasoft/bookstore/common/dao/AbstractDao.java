@@ -1,0 +1,70 @@
+package com.mediasoft.bookstore.common.dao;
+
+import javax.annotation.sql.DataSourceDefinition;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.io.Serializable;
+import java.util.Optional;
+
+/**
+ * Абстрактный класс описывающий операции со всеми сущностями.
+ * @param <Entity>
+ * @param <Id>
+ */
+public abstract class AbstractDao<Entity extends Serializable, Id extends Serializable> {
+
+    @PersistenceContext(unitName = "bookstore")
+    protected EntityManager entityManager;
+
+    private Class<Entity> entityClass;
+
+    public Class<Entity> getEntityClass() {
+        return entityClass;
+    }
+
+    public AbstractDao(Class<Entity> entityClass) {
+        this.entityClass = entityClass;
+    }
+
+    /**
+     * Выполняет поиск сущности по её ID.
+     * @param id ID сущности.
+     * @return
+     */
+    public Optional<Entity> findById(Id id) {
+        Entity entity = entityManager.find(entityClass, id);
+        return Optional.of(entity);
+    };
+
+    /**
+     * Выполняет сохранение сущности в БД.
+     * @param entity
+     * @return
+     */
+    public void save(Entity entity) {
+        entityManager.persist(entity);
+    }
+
+    /**
+     * Выполняет удаление сущности из БД по ID.
+     * @param id
+     */
+    public void deleteById(Id id) {
+        Entity entity = entityManager.find(entityClass, id);
+        delete(entity);
+    }
+
+    /**
+     * Выполняет удаление сущности из БД.
+     * @param entity
+     */
+    public void delete(Entity entity) {
+        if (entity != null) {
+            entityManager.remove(entity);
+        }
+    }
+
+    public boolean existsById(Id id) {
+        return entityManager.find(entityClass, id) != null;
+    }
+}
