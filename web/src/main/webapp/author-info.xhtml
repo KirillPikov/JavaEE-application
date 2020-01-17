@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <h:form id="author-form">
+        <h:outputLabel value="ID автора : "/>
+        <h:outputText value="#{authorController.author.id}"/>
+        <h:outputLabel value="Имя автора : "/>
+        <h:outputText value="#{authorController.author.name}"/>
+        <h:outputLabel value="E-mail автора : "/>
+        <h:outputText value="#{authorController.author.email}"/>
+        <h:outputLabel value="Адрес автора : "/>
+        <h:outputText value="#{authorController.author.address}"/>
+    </h:form>
+</f:view>
+</html>
