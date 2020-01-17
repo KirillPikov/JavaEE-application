@@ -1,0 +1,21 @@
+plugins {
+    id 'war'
+}
+
+group 'com.mediasoft'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    //-----------------------------< Javax >--------------------------------------
+    // https://mvnrepository.com/artifact/javax/javaee-api
+    implementation group: 'javax', name: 'javaee-api', version: '8.0'
+
+    providedCompile group: 'com.mediasoft', name: 'author', version: '1.0-SNAPSHOT'
+    providedCompile group: 'com.mediasoft', name: 'book', version: '1.0-SNAPSHOT'
+    providedCompile group: 'com.mediasoft', name: 'publisher', version: '1.0-SNAPSHOT'
+    providedCompile group: 'com.mediasoft', name: 'common', version: '1.0-SNAPSHOT'
+}
