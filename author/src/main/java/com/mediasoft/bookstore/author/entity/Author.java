@@ -12,6 +12,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NamedQueries(
+        @NamedQuery(name = "getAllAuthors", query = "SELECT a FROM Author a")
+)
 public class Author extends AbstractEntity<Long> implements Serializable {
 
     private String name;
