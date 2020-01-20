@@ -38,8 +38,13 @@ dependencies {
     // https://mvnrepository.com/artifact/org.hibernate/hibernate-validator
     implementation group: 'org.hibernate', name: 'hibernate-validator', version: '6.1.0.Final'
 
+    //-----------------------------< Log4j >--------------------------------------
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+
     //-----------------------------< Junit >--------------------------------------
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    //-----------------------------< Mockito >-----------------------------------
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '3.2.4'
 
     implementation group: 'com.mediasoft', name: 'common', version: '1.0-SNAPSHOT'
     runtimeClasspath group: 'com.mediasoft', name: 'common', version: '1.0-SNAPSHOT'
