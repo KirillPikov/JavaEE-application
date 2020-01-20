@@ -1,5 +1,6 @@
 package com.mediasoft.bookstore.publisher.ejb;
 
+import com.mediasoft.bookstore.common.exception.CreateOrUpdateException;
 import com.mediasoft.bookstore.common.exception.EntityNotFoundException;
 import com.mediasoft.bookstore.common.pageable.Pageable;
 import com.mediasoft.bookstore.publisher.entity.Publisher;
@@ -28,7 +29,7 @@ public interface PublisherEjbRemote {
      * Добавление нового издателя.
      * @param publisher новый издатель.
      */
-    void addPublisher(Publisher publisher);
+    void addPublisher(Publisher publisher) throws CreateOrUpdateException;
 
     /**
      * Изменение состояние издателя.
@@ -36,7 +37,7 @@ public interface PublisherEjbRemote {
      * @param publisher новое состояние издателя.
      * @throws EntityNotFoundException
      */
-    void updatePublisher(Long publisherId, Publisher publisher) throws EntityNotFoundException;
+    void updatePublisher(Long publisherId, Publisher publisher) throws EntityNotFoundException, CreateOrUpdateException;
 
     /**
      * Удаление издателя по ID.

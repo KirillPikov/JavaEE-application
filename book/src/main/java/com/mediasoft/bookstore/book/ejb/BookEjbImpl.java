@@ -1,28 +1,30 @@
 package com.mediasoft.bookstore.book.ejb;
 
-import com.mediasoft.bookstore.author.ejb.AuthorEjbRemote;
+import com.mediasoft.bookstore.author.ejb.AuthorEjbLocal;
 import com.mediasoft.bookstore.book.dao.AbstractBookDao;
 import com.mediasoft.bookstore.book.entity.Book;
+import com.mediasoft.bookstore.common.exception.CreateOrUpdateException;
 import com.mediasoft.bookstore.common.exception.EntityNotFoundException;
+import com.mediasoft.bookstore.common.loggable.Loggable;
 import com.mediasoft.bookstore.common.pageable.Pageable;
-import com.mediasoft.bookstore.publisher.ejb.PublisherEjbRemote;
+import com.mediasoft.bookstore.publisher.ejb.PublisherEjbLocal;
+import lombok.AllArgsConstructor;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Objects;
 
+@Loggable
 @Stateless
+@AllArgsConstructor(onConstructor = @__({@Inject}))
 public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
 
-    @Inject
     private AbstractBookDao bookDao;
 
-    @EJB
-    private AuthorEjbRemote authorEjbRemote;
+    private AuthorEjbLocal authorEjbLocal;
 
-    @EJB
-    private PublisherEjbRemote publisherEjbRemote;
+    private PublisherEjbLocal publisherEjbLocal;
 
     /**
      * Получение книги по ID.
@@ -60,7 +62,7 @@ public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
      */
     @Override
     public List<Book> getAllBooksByAuthorId(Long authorId, Pageable pageable) throws EntityNotFoundException {
-        return authorEjbRemote.getAuthor(authorId).getBooks();
+        return authorEjbLocal.getAuthor(authorId).getBooks();
     }
 
     /**
@@ -72,7 +74,7 @@ public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
      */
     @Override
     public List<Book> getAllBooksByPublisherId(Long publisherId, Pageable pageable) throws EntityNotFoundException {
-        return publisherEjbRemote.getPublisher(publisherId).getBooks();
+        return publisherEjbLocal.getPublisher(publisherId).getBooks();
     }
 
     /**
@@ -81,8 +83,12 @@ public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
      * @param book новая книга.
      */
     @Override
-    public void addBook(Book book) {
-        bookDao.save(book);
+    public void addBook(Book book) throws CreateOrUpdateException {
+        if(Objects.nonNull(book)) {
+            bookDao.save(book);
+        } else {
+            throw new CreateOrUpdateException("Can't create book because it is null!");
+        }
     }
 
     /**
@@ -92,7 +98,10 @@ public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
      * @param book   новое состояние книги.
      */
     @Override
-    public void updateBook(Long bookId, Book book) throws EntityNotFoundException {
+    public void updateBook(Long bookId, Book book) throws EntityNotFoundException, CreateOrUpdateException {
+        if(Objects.isNull(book)) {
+            throw new CreateOrUpdateException("Can't update book because it is null!");
+        }
         /* Выставляю ID книге, так как изначальное он не проинициализирован. */
         book.setId(bookId);
         /* Пробуем найти книгеу по переданному ID */

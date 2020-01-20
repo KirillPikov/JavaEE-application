@@ -1,6 +1,7 @@
 package com.mediasoft.bookstore.author.ejb;
 
 import com.mediasoft.bookstore.author.entity.Author;
+import com.mediasoft.bookstore.common.exception.CreateOrUpdateException;
 import com.mediasoft.bookstore.common.exception.EntityNotFoundException;
 import com.mediasoft.bookstore.common.pageable.Pageable;
 
@@ -27,15 +28,18 @@ public interface AuthorEjbRemote {
     /**
      * Добавление нового автора.
      * @param author новый автор.
+     * @throws CreateOrUpdateException
      */
-    void addAuthor(Author author);
+    void addAuthor(Author author) throws CreateOrUpdateException;
 
     /**
      * Изменение состояние автора.
      * @param authorId ID автора.
      * @param author новое состояние автора.
+     * @throws EntityNotFoundException
+     * @throws CreateOrUpdateException
      */
-    void updateAuthor(Long authorId, Author author) throws EntityNotFoundException;
+    void updateAuthor(Long authorId, Author author) throws EntityNotFoundException, CreateOrUpdateException;
 
     /**
      * Удаление автора по ID.

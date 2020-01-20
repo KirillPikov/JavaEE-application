@@ -1,18 +1,23 @@
 package com.mediasoft.bookstore.publisher.ejb;
 
+import com.mediasoft.bookstore.common.exception.CreateOrUpdateException;
 import com.mediasoft.bookstore.common.exception.EntityNotFoundException;
+import com.mediasoft.bookstore.common.loggable.Loggable;
 import com.mediasoft.bookstore.common.pageable.Pageable;
 import com.mediasoft.bookstore.publisher.dao.AbstractPublisherDao;
 import com.mediasoft.bookstore.publisher.entity.Publisher;
+import lombok.AllArgsConstructor;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Objects;
 
+@Loggable
 @Stateless
+@AllArgsConstructor(onConstructor = @__({@Inject}))
 public class PublisherEjbImpl implements PublisherEjbLocal, PublisherEjbRemote {
 
-    @Inject
     private AbstractPublisherDao publisherDao;
 
     /**
@@ -50,7 +55,11 @@ public class PublisherEjbImpl implements PublisherEjbLocal, PublisherEjbRemote {
      */
     @Override
     public void addPublisher(Publisher publisher) {
-        publisherDao.save(publisher);
+        if(Objects.nonNull(publisher)) {
+            publisherDao.save(publisher);
+        } else {
+            throw new CreateOrUpdateException("Can't update publisher because it is null!");
+        }
     }
 
     /**
@@ -61,7 +70,10 @@ public class PublisherEjbImpl implements PublisherEjbLocal, PublisherEjbRemote {
      * @throws EntityNotFoundException
      */
     @Override
-    public void updatePublisher(Long publisherId, Publisher publisher) throws EntityNotFoundException {
+    public void updatePublisher(Long publisherId, Publisher publisher) throws EntityNotFoundException, CreateOrUpdateException {
+        if(Objects.isNull(publisher)) {
+            throw new CreateOrUpdateException("Can't update publisher because it is null!");
+        }
         publisher.setId(publisherId);
         publisherDao.findById(publisherId)
                 .ifPresentOrElse(

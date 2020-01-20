@@ -1,6 +1,7 @@
 package com.mediasoft.bookstore.book.ejb;
 
 import com.mediasoft.bookstore.book.entity.Book;
+import com.mediasoft.bookstore.common.exception.CreateOrUpdateException;
 import com.mediasoft.bookstore.common.exception.EntityNotFoundException;
 import com.mediasoft.bookstore.common.pageable.Pageable;
 
@@ -44,14 +45,14 @@ public interface BookEjbRemote {
      * Добавление новой книги.
      * @param book новая книга.
      */
-    void addBook(Book book);
+    void addBook(Book book) throws CreateOrUpdateException;
 
     /**
      * Изменение состояния киниги.
      * @param bookId ID кинги.
      * @param book новое состояние книги.
      */
-    void updateBook(Long bookId, Book book) throws EntityNotFoundException;
+    void updateBook(Long bookId, Book book) throws EntityNotFoundException, CreateOrUpdateException;
 
     /**
      * Удаление книги по её ID.
