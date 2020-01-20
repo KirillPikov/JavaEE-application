@@ -4,6 +4,7 @@ import com.mediasoft.bookstore.common.entity.AbstractEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.util.Optional;
 
@@ -67,5 +68,9 @@ public abstract class AbstractDao<Entity extends AbstractEntity, Id extends Seri
 
     public boolean existsById(Id id) {
         return entityManager.find(entityClass, id) != null;
+    }
+
+    public TypedQuery<Entity> namedQuery(String queryName) {
+        return entityManager.createNamedQuery(queryName, entityClass);
     }
 }
