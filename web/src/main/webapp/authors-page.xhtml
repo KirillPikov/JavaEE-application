@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+
+    <f:metadata>
+        <f:viewParam name="page" value="#{authorController.page}"/>
+        <f:viewAction action="#{authorController.getAuthorsPage}"/>
+    </f:metadata>
+
+    <h:head>
+        <title>Список авторов</title>
+    </h:head>
+
+    <h1>Список авторов:</h1>
+
+    <h:dataTable value="#{authorController.authorsPage}" var="author">
+        <h:column>
+            <h:link outcome="author-info.xhtml?id=#{author.id}" value="#{author.name}"/>
+        </h:column>
+    </h:dataTable>
+
+    <h:panelGrid columns="2">
+        <h:link outcome="authors-page.xhtml?page=#{authorController.page}" value="Назад"/>
+        <h:link outcome="authors-page.xhtml?page=#{authorController.page}" value="Вперёд"/>
+    </h:panelGrid>
+</f:view>
+</html>
