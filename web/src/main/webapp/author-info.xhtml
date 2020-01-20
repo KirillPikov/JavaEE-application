@@ -6,15 +6,20 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <f:view>
-    <h:form id="author-form">
-        <h:outputLabel value="ID автора : "/>
-        <h:outputText value="#{authorController.author.id}"/>
-    <!--    <h:outputLabel value="Имя автора : "/>
-        <h:outputText value="#{authorController.author.name}"/>
-        <h:outputLabel value="E-mail автора : "/>
-        <h:outputText value="#{authorController.author.email}"/>
-        <h:outputLabel value="Адрес автора : "/>
-        <h:outputText value="#{authorController.author.address}"/>-->
+    <f:metadata>
+        <f:viewParam name="id" value="#{authorController.author.id}"/>
+        <f:viewAction action="#{authorController.findAuthorById}"/>
+    </f:metadata>
+
+    <h:form id="author-info-form">
+        <h:panelGrid columns="2">
+            <h:outputLabel value="Имя автора: "/>
+            <h:outputText value="#{authorController.author.name}"/>
+            <h:outputLabel value="E-mail автора: "/>
+            <h:outputText value="#{authorController.author.email}"/>
+            <h:outputLabel value="Адрес автора: "/>
+            <h:outputText value="#{authorController.author.address}"/>
+        </h:panelGrid>
     </h:form>
 </f:view>
 </html>
