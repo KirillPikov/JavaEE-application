@@ -12,6 +12,11 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
+@NamedQueries({
+        @NamedQuery(name = "getAllBooks", query = "SELECT b FROM Book b")/*,
+        @NamedQuery(name = "getBooksByAuthorId", query = "SELECT b FROM Book b JOIN Author a WHERE b.author = a AND a = :author"),
+        @NamedQuery(name = "getBooksByPublisherId", query = "SELECT b FROM Book b JOIN Publisher p WHERE b.publisher = p AND p = :publisher")*/
+})
 public class Book extends AbstractEntity<Long> implements Serializable {
 
     private String isbn;

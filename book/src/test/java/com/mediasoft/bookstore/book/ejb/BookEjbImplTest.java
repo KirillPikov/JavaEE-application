@@ -10,7 +10,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -22,13 +21,13 @@ import java.util.Optional;
 public class BookEjbImplTest {
 
     @Mock
+    AuthorEjbLocal authorEjbLocal;
+
+    @Mock
+    PublisherEjbLocal publisherEjbLocal;
+
+    @Mock
     private AbstractBookDao bookDao;
-
-    @Mock
-    private AuthorEjbLocal authorEjbLocal;
-
-    @Mock
-    private PublisherEjbLocal publisherEjbLocal;
 
     private BookEjbLocal bookEjbLocal;
     
@@ -79,7 +78,7 @@ public class BookEjbImplTest {
         ).thenReturn(Optional.empty());
 
         /* Создание EJB */
-        bookEjbLocal = new BookEjbImpl(bookDao, authorEjbLocal, publisherEjbLocal);
+        bookEjbLocal = new BookEjbImpl(bookDao);
     }
 
     @Test
@@ -90,20 +89,20 @@ public class BookEjbImplTest {
     //-----------------------------------< getBookById >----------------------------------------------
     @Test
     public void getExistingBook() {
-        Book author = bookEjbLocal.getBookById(this.idExistingBook);
-        Assert.assertNotNull(author);
+        Book book = bookEjbLocal.getBookById(this.idExistingBook);
+        Assert.assertNotNull(book);
     }
 
     @Test(expected = EntityNotFoundException.class)
     public void getNotExistingBook() {
-        Book author = bookEjbLocal.getBookById(this.idNotExistingBook);
-        Assert.assertNull(author);
+        Book book = bookEjbLocal.getBookById(this.idNotExistingBook);
+        Assert.assertNull(book);
     }
 
     @Test(expected = EntityNotFoundException.class)
     public void getBookWithNullId() {
-        Book author = bookEjbLocal.getBookById(null);
-        Assert.assertNull(author);
+        Book book = bookEjbLocal.getBookById(null);
+        Assert.assertNull(book);
     }
     //---------------------------------------------------------------------------------------------------
 

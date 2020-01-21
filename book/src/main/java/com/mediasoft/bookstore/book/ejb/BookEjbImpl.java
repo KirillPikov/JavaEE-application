@@ -22,10 +22,6 @@ public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
 
     private AbstractBookDao bookDao;
 
-    private AuthorEjbLocal authorEjbLocal;
-
-    private PublisherEjbLocal publisherEjbLocal;
-
     /**
      * Получение книги по ID.
      *
@@ -48,9 +44,9 @@ public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
      * @param pageable настройка страницы.
      * @return
      */
-    @Override //TODO Criteria or JPQL
+    @Override
     public List<Book> getAllBooks(Pageable pageable) {
-        return null;
+        return bookDao.getAllBooks(pageable);
     }
 
     /**
@@ -60,9 +56,9 @@ public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
      * @param pageable настройка страницы.
      * @return
      */
-    @Override
+    @Override //TODO проверка на существование автора с таким ID
     public List<Book> getAllBooksByAuthorId(Long authorId, Pageable pageable) throws EntityNotFoundException {
-        return authorEjbLocal.getAuthor(authorId).getBooks();
+        return bookDao.getBooksByAuthorId(authorId, pageable);
     }
 
     /**
@@ -74,7 +70,7 @@ public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
      */
     @Override
     public List<Book> getAllBooksByPublisherId(Long publisherId, Pageable pageable) throws EntityNotFoundException {
-        return publisherEjbLocal.getPublisher(publisherId).getBooks();
+        return bookDao.getBooksByPublisherId(publisherId, pageable);
     }
 
     /**
