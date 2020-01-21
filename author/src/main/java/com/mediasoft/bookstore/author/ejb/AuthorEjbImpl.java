@@ -45,12 +45,9 @@ public class AuthorEjbImpl implements AuthorEjbLocal, AuthorEjbRemote {
      * @param pageable настройка страницы.
      * @return
      */
-    @Override   //TODO Criteria or JPQL
+    @Override
     public List<Author> getAuthorsPage(Pageable pageable) {
-        return authorDao.namedQuery("getAllAuthors")
-                .setFirstResult(pageable.getOffset())
-                .setMaxResults(pageable.getSize())
-                .getResultList();
+        return authorDao.getAllAuthors(pageable);
     }
 
     /**
