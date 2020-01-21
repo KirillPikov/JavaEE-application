@@ -1,7 +1,7 @@
 package com.mediasoft.bookstore.web;
 
-import com.mediasoft.bookstore.author.ejb.AuthorEjbLocal;
-import com.mediasoft.bookstore.author.entity.Author;
+import com.mediasoft.bookstore.book.ejb.BookEjbLocal;
+import com.mediasoft.bookstore.book.entity.Book;
 import com.mediasoft.bookstore.common.loggable.Loggable;
 import com.mediasoft.bookstore.common.pageable.Pageable;
 import com.mediasoft.bookstore.common.pageable.Sort;
@@ -15,23 +15,23 @@ import java.util.List;
 @Named
 @Loggable
 @RequestScoped
-public class AuthorController {
+public class BookController {
 
     @Inject
-    private AuthorEjbLocal authorEjbLocal;
+    private BookEjbLocal bookEjbLocal;
 
-    private Author author;
+    private Book book;
 
     private Integer page;
 
     @PostConstruct
     public void init() {
-        author = new Author();
+        book = new Book();
         page = 0;
     }
 
-    public Author getAuthor() {
-        return author;
+    public Book getBook() {
+        return book;
     }
 
     public void setPage(Integer page) {
@@ -42,13 +42,15 @@ public class AuthorController {
         return page;
     }
 
-    public Author findAuthorById() {
-        author = authorEjbLocal.getAuthor(author.getId());
-        return author;
+    public Book findBookById() {
+        book = bookEjbLocal.getBookById(book.getId());
+        return book;
     }
 
-    public List<Author> getAuthorsPage() {
+    public List<Book> getBooksPage() {
         Integer size = 10;
-        return authorEjbLocal.getAuthorsPage(new Pageable(size * page, size, Sort.ASC));
+        return bookEjbLocal.getAllBooks(
+                new Pageable(page * size, size, Sort.ASC)
+        );
     }
 }
