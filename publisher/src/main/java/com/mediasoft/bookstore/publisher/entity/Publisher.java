@@ -12,6 +12,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NamedQueries(
+        @NamedQuery(name = "getAllPublishers", query = "SELECT p FROM Publisher p")
+)
 public class Publisher extends AbstractEntity<Long> implements Serializable {
 
     private String name;
@@ -26,8 +29,6 @@ public class Publisher extends AbstractEntity<Long> implements Serializable {
     private List<Book> books;
 
     @Override
-    @SequenceGenerator(name = "common_seq", sequenceName = "common_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "common_seq")
     public Long getId() {
         return this.id;
     }

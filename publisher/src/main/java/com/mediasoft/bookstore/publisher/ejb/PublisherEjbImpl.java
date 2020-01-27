@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,9 +44,12 @@ public class PublisherEjbImpl implements PublisherEjbLocal, PublisherEjbRemote {
      * @param pageable
      * @return
      */
-    @Override   //TODO Criteria or JPQL
+    @Override
     public List<Publisher> getPublishersPage(Pageable pageable) {
-        return null;
+        if(Objects.isNull(pageable)) {
+            pageable = new Pageable();
+        }
+        return publisherDao.getAllPublishers(pageable);
     }
 
     /**
@@ -54,6 +58,7 @@ public class PublisherEjbImpl implements PublisherEjbLocal, PublisherEjbRemote {
      * @param publisher новый издатель.
      */
     @Override
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void addPublisher(Publisher publisher) {
         if(Objects.nonNull(publisher)) {
             publisherDao.save(publisher);
@@ -70,6 +75,7 @@ public class PublisherEjbImpl implements PublisherEjbLocal, PublisherEjbRemote {
      * @throws EntityNotFoundException
      */
     @Override
+    @Transactional(value = Transactional.TxType.REQUIRED)
     public void updatePublisher(Long publisherId, Publisher publisher) throws EntityNotFoundException, CreateOrUpdateException {
         if(Objects.isNull(publisher)) {
             throw new CreateOrUpdateException("Can't update publisher because it is null!");
@@ -93,6 +99,7 @@ public class PublisherEjbImpl implements PublisherEjbLocal, PublisherEjbRemote {
      * @throws EntityNotFoundException
      */
     @Override
+    @Transactional(value = Transactional.TxType.REQUIRED)
     public void deletePublisher(Long publisherId) throws EntityNotFoundException {
         /* Проверяем существование издателя с таким ID */
         if(publisherDao.existsById(publisherId)) {
@@ -102,5 +109,16 @@ public class PublisherEjbImpl implements PublisherEjbLocal, PublisherEjbRemote {
             /* Иначе выбрасываем исключение */
             throw new EntityNotFoundException("Publisher with id = " + publisherId + " - not found.");
         }
+    }
+
+    /**
+     * Првоеряет существование издателя с таким Id.
+     *
+     * @param publisherId
+     * @return
+     */
+    @Override
+    public Boolean isPublisherExistsById(Long publisherId) {
+        return publisherDao.existsById(publisherId);
     }
 }

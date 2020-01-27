@@ -27,8 +27,6 @@ public class Author extends AbstractEntity<Long> implements Serializable {
     private List<Book> books;
 
     @Override
-    @SequenceGenerator(name="common_seq", sequenceName="common_seq", allocationSize = 1)
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="common_seq")
     public Long getId() {
         return this.id;
     }

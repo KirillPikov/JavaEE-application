@@ -4,4 +4,5 @@ include 'common'
 include 'book'
 include 'publisher'
 include 'web'
+include 'liquibase'
 

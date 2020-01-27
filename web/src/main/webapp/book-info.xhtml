@@ -3,29 +3,39 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <f:view>
+
     <f:metadata>
         <f:viewParam name="id" value="#{bookController.book.id}"/>
         <f:viewAction action="#{bookController.findBookById}"/>
     </f:metadata>
 
+    <h:link outcome="main-page.xhtml" value="На главную"/>
+
+    <h3>Книга: </h3>
+
     <h:form id="book-info-form">
         <h:panelGrid columns="2">
             <h:outputLabel value="ISBN: "/>
             <h:outputText value="#{bookController.book.isbn}"/>
+
             <h:outputLabel value="Название книги: "/>
             <h:outputText value="#{bookController.book.title}"/>
+
             <h:outputLabel value="Автор книги: "/>
             <h:link outcome="author-info.xhtml?id=#{bookController.book.author.id}" value="#{bookController.book.author.name}"/>
+
             <h:outputLabel value="Издатель книги: "/>
-            <h:outputText value="#{bookController.book.publisher}"/>
+            <h:link outcome="publisher-info.xhtml?id=#{bookController.book.publisher.id}" value="#{bookController.book.publisher.name}"/>
+
             <h:outputLabel value="Год написания: "/>
             <h:outputText value="#{bookController.book.year}"/>
+
             <h:outputLabel value="Цена: "/>
             <h:outputText value="#{bookController.book.price}"/>
         </h:panelGrid>
     </h:form>
+
 </f:view>
 </html>

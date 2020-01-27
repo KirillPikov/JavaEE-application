@@ -3,23 +3,35 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <f:view>
+
     <f:metadata>
         <f:viewParam name="id" value="#{authorController.author.id}"/>
         <f:viewAction action="#{authorController.findAuthorById}"/>
     </f:metadata>
 
+    <h:link outcome="main-page.xhtml" value="На главную"/>
+
+    <h3>Автор: </h3>
+
     <h:form id="author-info-form">
         <h:panelGrid columns="2">
             <h:outputLabel value="Имя автора: "/>
             <h:outputText value="#{authorController.author.name}"/>
+
             <h:outputLabel value="E-mail автора: "/>
             <h:outputText value="#{authorController.author.email}"/>
+
             <h:outputLabel value="Адрес автора: "/>
             <h:outputText value="#{authorController.author.address}"/>
         </h:panelGrid>
+
+        <h:panelGrid columns="2">
+                <h:link outcome="author-update.xhtml?id=#{authorController.author.id}" value="Изменить автора"/>
+                <h:commandButton value="Удалить автора" action="#{authorController.deleteAuthor}"/>
+    </h:panelGrid>
     </h:form>
+
 </f:view>
 </html>

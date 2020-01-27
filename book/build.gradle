@@ -2,11 +2,28 @@ plugins {
     id 'java'
 }
 
+configurations {
+    all*.exclude group: 'javassist', module: 'javassist' // get rid of hibernate-incompatible javassist
+}
+
+apply plugin: 'maven'
+
+uploadArchives{
+    repositories {
+        mavenDeployer {
+            repository(url: "file:/C:/Users/MedaSoft/.m2/repository")
+            pom.version = '1.0'
+            pom.artifactId = 'book'
+            pom.groupId = 'com.mediasoft'
+        }
+    }
+}
+
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
 group 'com.mediasoft'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 sourceCompatibility = JavaVersion.VERSION_11
 
@@ -26,7 +43,7 @@ dependencies {
 
     //-----------------------------< Postgres >-----------------------------------
     // https://mvnrepository.com/artifact/org.postgresql/postgresql
-    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.9'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.9'
 
     //-----------------------------< Jackson >--------------------------------------
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
@@ -34,24 +51,22 @@ dependencies {
 
     //-----------------------------< Hibernate >--------------------------------------
     // https://mvnrepository.com/artifact/org.hibernate/hibernate-core
-    implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.4.9.Final'
-    // https://mvnrepository.com/artifact/org.hibernate/hibernate-validator
-    implementation group: 'org.hibernate', name: 'hibernate-validator', version: '6.1.0.Final'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '6.0.0.Alpha4', ext: 'pom'
 
     //-----------------------------< Log4j >--------------------------------------
-    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+    implementation group: 'log4j', name: 'log4j', version: '1.2.17'
 
     //-----------------------------< Junit >--------------------------------------
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation group: 'junit', name: 'junit', version: '4.12'
     //-----------------------------< Mockito >-----------------------------------
     testCompile group: 'org.mockito', name: 'mockito-core', version: '3.2.4'
 
-    implementation group: 'com.mediasoft', name: 'common', version: '1.0-SNAPSHOT'
-    runtimeClasspath group: 'com.mediasoft', name: 'common', version: '1.0-SNAPSHOT'
+    implementation group: 'com.mediasoft', name: 'common', version: '1.0'
+    runtimeClasspath group: 'com.mediasoft', name: 'common', version: '1.0'
 
-    implementation group: 'com.mediasoft', name: 'author', version: '1.0-SNAPSHOT'
-    runtimeClasspath group: 'com.mediasoft', name: 'author', version: '1.0-SNAPSHOT'
+    implementation group: 'com.mediasoft', name: 'author', version: '1.0'
+    runtimeClasspath group: 'com.mediasoft', name: 'author', version: '1.0'
 
-    implementation group: 'com.mediasoft', name: 'publisher', version: '1.0-SNAPSHOT'
-    runtimeClasspath group: 'com.mediasoft', name: 'publisher', version: '1.0-SNAPSHOT'
+    implementation group: 'com.mediasoft', name: 'publisher', version: '1.0'
+    runtimeClasspath group: 'com.mediasoft', name: 'publisher', version: '1.0'
 }

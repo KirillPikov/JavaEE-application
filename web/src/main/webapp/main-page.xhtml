@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+
+    <h:head>
+        <title>Главная</title>
+    </h:head>
+
+    <h2>Главная страница: </h2>
+
+    <p>
+        <h:panelGrid columns="1">
+            <h:link outcome="authors-page.xhtml?page=0" value="Авторы"/>
+            <h:link outcome="publishers-page.xhtml?page=0" value="Издатели"/>
+            <h:link outcome="books-page.xhtml?page=0" value="Книги"/>
+        </h:panelGrid>
+    </p>
+
+</f:view>
+</html>

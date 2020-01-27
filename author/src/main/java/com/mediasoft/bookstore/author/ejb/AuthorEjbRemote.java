@@ -46,4 +46,11 @@ public interface AuthorEjbRemote {
      * @param authorId ID автора.
      */
     void deleteAuthor(Long authorId) throws EntityNotFoundException;
+
+    /**
+     * Проверят существование автора с таким Id.
+     * @param authorId
+     * @return
+     */
+    Boolean isAuthorExistsById(Long authorId);
 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+
+    <h:head>
+        <title>Создание автора</title>
+    </h:head>
+
+    <h:link outcome="main-page.xhtml" value="На главную"/>
+
+    <h3>Добавление новой книги: </h3>
+
+    <h:form id="book-info-form">
+        <h:panelGrid columns="3">
+
+            <h:outputLabel value="Название книги: "/>
+            <h:inputText id="book_title"
+                         value="#{bookController.book.title}"
+                         required="true"
+                         label="Это поле необходимо указать."
+                         validatorMessage="Название должно состоять из латиницы/кириллицы и содержать от 2 до 40 символов.">
+                <f:validateRegex pattern="^[а-яА-Яa-zA-Z0-9 ]{2,40}$"/>
+            </h:inputText>
+            <h:message for="book_title"
+                       style="color:red"
+                       showDetail="true"/>
+
+            <h:outputLabel value="ISBN: "/>
+            <h:inputText id="book_isbn"
+                         value="#{bookController.book.isbn}"
+                         required="true"
+                         label="Это поле необходимо указать."
+                         validatorMessage="Введёный ISBN не соответствует шаблону. Корректный пример: ISBN 978-5-93286-181-3.">
+                <f:validateRegex pattern="^(?:ISBN(?:-1[03])?:? )?(?=[-0-9 ]{17}$|[-0-9X ]{13}$|[0-9X]{10}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?(?:[0-9]+[- ]?){2}[0-9X]"/>
+            </h:inputText>
+            <h:message for="book_isbn"
+                       style="color:red"
+                       showDetail="true"/>
+
+            <h:outputLabel value="Год написания: "/>
+            <h:inputText id="book_year"
+                         value="#{bookController.book.year}"
+                         required="true"
+                         label="Это поле необходимо указать."
+                         validatorMessage="Год написания книги должен находиться в пределах от рождества Христова до сегодняшних дней.">
+                <f:validateLongRange minimum="0" maximum="2020"/>
+            </h:inputText>
+            <h:message for="book_year"
+                       style="color:red"
+                       showDetail="true"/>
+
+            <h:outputLabel value="Цена: "/>
+            <h:inputText id="book_price"
+                         value="#{bookController.book.price}"
+                         required="true"
+                         label="Это поле необходимо указать."
+                         validatorMessage="Значение не может быть отрицательным или бесконечным.">
+                <f:validateLongRange minimum="0" maximum="10000000"/>
+            </h:inputText>
+            <h:message for="book_price"
+                       style="color:red"
+                       showDetail="true"/>
+
+            <h:outputLabel value="Автор: "/>
+            <h:selectOneMenu id="book_author" required="true" value="#{bookController.book.author}" converter="authorConverter">
+                <f:selectItems value="#{authorController.authorsPage}" var="author" itemLabel="#{author.name} | #{author.email}" itemValue="#{author.id}"/>
+            </h:selectOneMenu>
+            <h:message for="book_author"
+                       style="color:red"
+                       showDetail="true"/>
+
+            <h:outputLabel value="Издатель: "/>
+            <h:selectOneMenu id="book_publisher" required="true" value="#{bookController.book.publisher}" converter="publisherConverter">
+                <f:selectItems value="#{publisherController.publishersPage}" var="publisher" itemLabel="#{publisher.name} | #{publisher.email}" itemValue="#{publisher.id}"/>
+            </h:selectOneMenu>
+            <h:message for="book_publisher"
+                       style="color:red"
+                       showDetail="true"/>
+
+        </h:panelGrid>
+
+        <h:commandButton value="Создать книгу" action="#{bookController.createBook}"/>
+    </h:form>
+
+</f:view>
+</html>

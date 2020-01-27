@@ -23,23 +23,24 @@ public class AuthorEjbImplTest {
 
     private AuthorEjbLocal authorEjbLocal;
 
-    private final Long idExistingAuthor = 15L;
+    private final Long idExistingEntity = 15L;
 
-    private final Long idNotExistingAuthor = 20L;
+    private final Long idNotExistingEntity = 20L;
 
     @Before
     public void init() {
+        //--------------------------------------< AbstractAuthorDao Mock >---------------------------------------
         //-----------------------< existsById >------------------
         /* Поведение при существующем авторе. */
         Mockito.when(
                 authorDao.existsById(
-                        Mockito.eq(this.idExistingAuthor)
+                        Mockito.eq(this.idExistingEntity)
                 )
         ).thenReturn(true);
         /* Поведение при несуществующем авторе. */
         Mockito.when(
                 authorDao.existsById(
-                        Mockito.eq(this.idNotExistingAuthor)
+                        Mockito.eq(this.idNotExistingEntity)
                 )
         ).thenReturn(false);
         /* Поведение при передачи null. */
@@ -53,13 +54,13 @@ public class AuthorEjbImplTest {
         /* Поведение при существующем авторе. */
         Mockito.when(
                 authorDao.findById(
-                        Mockito.eq(this.idExistingAuthor)
+                        Mockito.eq(this.idExistingEntity)
                 )
         ).thenReturn(Optional.of(new Author()));
         /* Поведение при несуществующем авторе. */
         Mockito.when(
                 authorDao.findById(
-                        Mockito.eq(this.idNotExistingAuthor)
+                        Mockito.eq(this.idNotExistingEntity)
                 )
         ).thenReturn(Optional.empty());
         /* Поведение при передачи null. */
@@ -68,10 +69,13 @@ public class AuthorEjbImplTest {
                         Mockito.argThat(Objects::isNull)
                 )
         ).thenReturn(Optional.empty());
+        //----------------------------------------------------------------------------------------------
 
         /* Создание EJB */
         this.authorEjbLocal = new AuthorEjbImpl(authorDao);
     }
+
+    //====================================================< TESTS >=====================================================
 
     @Test
     public void twoPlusTwo() {
@@ -81,13 +85,13 @@ public class AuthorEjbImplTest {
     //-----------------------------------< getAuthor >--------------------------------------------------
     @Test
     public void getExistingAuthor() {
-        Author author = authorEjbLocal.getAuthor(this.idExistingAuthor);
+        Author author = authorEjbLocal.getAuthor(this.idExistingEntity);
         Assert.assertNotNull(author);
     }
 
     @Test(expected = EntityNotFoundException.class)
     public void getNotExistingAuthor() {
-        Author author = authorEjbLocal.getAuthor(this.idNotExistingAuthor);
+        Author author = authorEjbLocal.getAuthor(this.idNotExistingEntity);
         Assert.assertNull(author);
     }
 
@@ -117,31 +121,31 @@ public class AuthorEjbImplTest {
     @Test
     public void updateNonNullAuthorWithExistingId() {
         Author updatedAuthor = new Author();
-        authorEjbLocal.updateAuthor(this.idExistingAuthor, updatedAuthor);
+        authorEjbLocal.updateAuthor(this.idExistingEntity, updatedAuthor);
     }
     /* Обновление автора с существующим id и null телом. */
     @Test(expected = CreateOrUpdateException.class)
     public void updateNullAuthorWithExistingId() {
         Author updatedAuthor = null;
-        authorEjbLocal.updateAuthor(this.idExistingAuthor, updatedAuthor);
+        authorEjbLocal.updateAuthor(this.idExistingEntity, updatedAuthor);
     }
     /* Обновление автора с несуществующим id и nonNull телом. */
     @Test(expected = EntityNotFoundException.class)
     public void updateNonNullAuthorWithNotExistingId() {
         Author updatedAuthor = new Author();
-        authorEjbLocal.updateAuthor(this.idNotExistingAuthor, updatedAuthor);
+        authorEjbLocal.updateAuthor(this.idNotExistingEntity, updatedAuthor);
     }
     //---------------------------------------------------------------------------------------------------
 
     //-----------------------------------< deleteAuthor >------------------------------------------------
     @Test
     public void deleteExistingAuthor() {
-        authorEjbLocal.deleteAuthor(this.idExistingAuthor);
+        authorEjbLocal.deleteAuthor(this.idExistingEntity);
     }
 
     @Test(expected = EntityNotFoundException.class)
     public void deleteNotExistingAuthor() {
-        authorEjbLocal.deleteAuthor(this.idNotExistingAuthor);
+        authorEjbLocal.deleteAuthor(this.idNotExistingEntity);
     }
 
     @Test(expected = EntityNotFoundException.class)
@@ -149,4 +153,6 @@ public class AuthorEjbImplTest {
         authorEjbLocal.deleteAuthor(null);
     }
     //---------------------------------------------------------------------------------------------------
+
+    //==================================================================================================================
 }

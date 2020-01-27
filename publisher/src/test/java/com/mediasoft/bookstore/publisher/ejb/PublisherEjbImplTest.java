@@ -15,8 +15,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Objects;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
-
 @RunWith(MockitoJUnitRunner.class)
 public class PublisherEjbImplTest {
 

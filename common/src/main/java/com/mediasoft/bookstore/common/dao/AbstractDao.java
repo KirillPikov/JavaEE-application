@@ -48,6 +48,14 @@ public abstract class AbstractDao<Entity extends AbstractEntity, Id extends Seri
     }
 
     /**
+     * Выполняет обновление состояния сущности в БД.
+     * @param entity
+     */
+    public void update(Entity entity) {
+        entityManager.merge(entity);
+    }
+
+    /**
      * Выполняет удаление сущности из БД по ID.
      * @param id
      */

@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,6 +22,10 @@ import java.util.Objects;
 public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
 
     private AbstractBookDao bookDao;
+
+    private AuthorEjbLocal authorEjbLocal;
+
+    private PublisherEjbLocal publisherEjbLocal;
 
     /**
      * Получение книги по ID.
@@ -46,6 +51,9 @@ public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
      */
     @Override
     public List<Book> getAllBooks(Pageable pageable) {
+        if(Objects.isNull(pageable)) {
+            pageable = new Pageable();
+        }
         return bookDao.getAllBooks(pageable);
     }
 
@@ -56,8 +64,15 @@ public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
      * @param pageable настройка страницы.
      * @return
      */
-    @Override //TODO проверка на существование автора с таким ID
+    @Override
     public List<Book> getAllBooksByAuthorId(Long authorId, Pageable pageable) throws EntityNotFoundException {
+        if(Objects.isNull(pageable)) {
+            pageable = new Pageable();
+        }
+        /* В случае, если автора с таким Id не существует - выбрасываем исключение. */
+        if(!authorEjbLocal.isAuthorExistsById(authorId)) {
+            throw new EntityNotFoundException("Author with id = " + authorId + " not exist!");
+        }
         return bookDao.getBooksByAuthorId(authorId, pageable);
     }
 
@@ -70,6 +85,13 @@ public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
      */
     @Override
     public List<Book> getAllBooksByPublisherId(Long publisherId, Pageable pageable) throws EntityNotFoundException {
+        if(Objects.isNull(pageable)) {
+            pageable = new Pageable();
+        }
+        /* В случае, если автора с таким Id не существует - выбрасываем исключение. */
+        if(!publisherEjbLocal.isPublisherExistsById(publisherId)) {
+            throw new EntityNotFoundException("Publisher with id = " + publisherId + " not exist!");
+        }
         return bookDao.getBooksByPublisherId(publisherId, pageable);
     }
 
@@ -79,6 +101,7 @@ public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
      * @param book новая книга.
      */
     @Override
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void addBook(Book book) throws CreateOrUpdateException {
         if(Objects.nonNull(book)) {
             bookDao.save(book);
@@ -94,6 +117,7 @@ public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
      * @param book   новое состояние книги.
      */
     @Override
+    @Transactional(value = Transactional.TxType.REQUIRED)
     public void updateBook(Long bookId, Book book) throws EntityNotFoundException, CreateOrUpdateException {
         if(Objects.isNull(book)) {
             throw new CreateOrUpdateException("Can't update book because it is null!");
@@ -120,6 +144,7 @@ public class BookEjbImpl implements BookEjbLocal, BookEjbRemote {
      * @param bookId ID книги.
      */
     @Override
+    @Transactional(value = Transactional.TxType.REQUIRED)
     public void deleteBook(Long bookId) throws EntityNotFoundException {
         /* Проверяем существование книги с таким ID */
         if(bookDao.existsById(bookId)) {

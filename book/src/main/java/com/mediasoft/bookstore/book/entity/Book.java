@@ -13,9 +13,9 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NamedQueries({
-        @NamedQuery(name = "getAllBooks", query = "SELECT b FROM Book b")/*,
-        @NamedQuery(name = "getBooksByAuthorId", query = "SELECT b FROM Book b JOIN Author a WHERE b.author = a AND a = :author"),
-        @NamedQuery(name = "getBooksByPublisherId", query = "SELECT b FROM Book b JOIN Publisher p WHERE b.publisher = p AND p = :publisher")*/
+        @NamedQuery(name = "getAllBooks", query = "SELECT b FROM Book b"),
+        @NamedQuery(name = "getBooksByAuthorId", query = "SELECT b FROM Book b JOIN b.author a WHERE b.author = a AND a = :author"),
+        @NamedQuery(name = "getBooksByPublisherId", query = "SELECT b FROM Book b JOIN b.publisher p WHERE b.publisher = p AND p = :publisher")
 })
 public class Book extends AbstractEntity<Long> implements Serializable {
 
@@ -36,8 +36,6 @@ public class Book extends AbstractEntity<Long> implements Serializable {
     private Integer price;
 
     @Override
-    @SequenceGenerator(name="common_seq", sequenceName="common_seq", allocationSize = 1)
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="common_seq")
     public Long getId() {
         return this.id;
     }

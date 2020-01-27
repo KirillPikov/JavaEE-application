@@ -15,7 +15,7 @@
         <class>com.mediasoft.bookstore.publisher.entity.Publisher</class>
 
         <properties>
-            <property name="hibernate.hbm2ddl.auto" value="validate" />
+            <property name="hibernate.hbm2ddl.auto" value="none" />
             <property name="hibernate.current_session_context_class" value="jta"/>
             <property name="show_sql" value="true"/>
             <property name="hibernate.show_sql" value="true" />

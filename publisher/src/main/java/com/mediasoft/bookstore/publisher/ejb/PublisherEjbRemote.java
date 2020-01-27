@@ -45,4 +45,11 @@ public interface PublisherEjbRemote {
      * @throws EntityNotFoundException
      */
     void deletePublisher(Long publisherId) throws EntityNotFoundException;
+
+    /**
+     * Првоеряет существование издателя с таким Id.
+     * @param publisherId
+     * @return
+     */
+    Boolean isPublisherExistsById(Long publisherId);
 }

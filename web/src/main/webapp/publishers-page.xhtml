@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+
+    <f:metadata>
+        <f:viewParam name="page" value="#{publisherController.page}"/>
+        <f:viewAction action="#{publisherController.getPublishersPage}"/>
+    </f:metadata>
+
+    <h:link outcome="main-page.xhtml" value="На главную"/>
+
+    <h:head>
+        <title>Список издателей</title>
+    </h:head>
+
+    <h2>Список издателей:</h2>
+
+    <h:dataTable value="#{publisherController.publishersPage}" var="publisher">
+        <h:column>
+            <h:link outcome="publisher-info.xhtml?id=#{publisher.id}" value="#{publisher.name}"/>
+        </h:column>
+    </h:dataTable>
+
+    <p>
+        <h:panelGrid columns="3">
+            <h:link outcome="publishers-page.xhtml?page=#{publisherController.page - 1}" value="Назад"/>
+            <h:outputText value="Текущая страница - #{publisherController.page}"/>
+            <h:link outcome="publishers-page.xhtml?page=#{publisherController.page + 1}" value="Вперёд"/>
+        </h:panelGrid>
+    </p>
+
+</f:view>
+</html>

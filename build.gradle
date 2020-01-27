@@ -13,6 +13,7 @@ dependencies {
     // The following dependencies will be the ear modules and
     // will be placed in the ear root
     // deploy project(':war')
+    deploy project(':liquibase')
     deploy project(':author')
     deploy project(':book')
     deploy project(':publisher')
@@ -20,10 +21,12 @@ dependencies {
     // The following dependencies will become ear libs and will
     // be placed in a dir configured via the libDirName property
     // earlib group: 'log4j', name: 'log4j'
-    earlib group: 'com.mediasoft', name: 'common', version: '1.0-SNAPSHOT'
-    earlib group: 'com.mediasoft', name: 'author', version: '1.0-SNAPSHOT'
-    earlib group: 'com.mediasoft', name: 'publisher', version: '1.0-SNAPSHOT'
-    earlib group: 'com.mediasoft', name: 'book', version: '1.0-SNAPSHOT'
+    earlib group: 'com.mediasoft', name: 'common', version: '1.0'
+    earlib group: 'com.mediasoft', name: 'author', version: '1.0'
+    earlib group: 'com.mediasoft', name: 'publisher', version: '1.0'
+    earlib group: 'com.mediasoft', name: 'book', version: '1.0'
+    earlib group: 'org.liquibase', name: 'liquibase-core', version: '3.1.0'
+    earlib group: 'org.yaml', name: 'snakeyaml'
 }
 
 ear {

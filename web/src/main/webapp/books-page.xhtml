@@ -3,7 +3,6 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <f:view>
 
@@ -16,6 +15,11 @@
         <title>Список книг</title>
     </h:head>
 
+    <h:panelGrid columns="2">
+        <h:link outcome="main-page.xhtml" value="На главную"/>
+        <h:link outcome="book-create.xhtml" value="Создать книгу"/>
+    </h:panelGrid>
+
     <h2>Список книг:</h2>
 
     <h:dataTable value="#{bookController.booksPage}" var="book">
@@ -24,9 +28,13 @@
         </h:column>
     </h:dataTable>
 
-    <h:panelGrid columns="2">
-        <h:link outcome="books-page.xhtml?page=#{bookController.page}" value="Назад"/>
-        <h:link outcome="books-page.xhtml?page=#{bookController.page}" value="Вперёд"/>
-    </h:panelGrid>
+    <p>
+        <h:panelGrid columns="3">
+            <h:link outcome="books-page.xhtml?page=#{bookController.page - 1}" value="Назад"/>
+            <h:outputText value="Текущая страница - #{bookController.page}"/>
+            <h:link outcome="books-page.xhtml?page=#{bookController.page + 1}" value="Вперёд"/>
+        </h:panelGrid>
+    </p>
+
 </f:view>
 </html>

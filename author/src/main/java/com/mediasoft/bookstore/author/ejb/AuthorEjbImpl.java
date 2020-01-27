@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,6 +48,9 @@ public class AuthorEjbImpl implements AuthorEjbLocal, AuthorEjbRemote {
      */
     @Override
     public List<Author> getAuthorsPage(Pageable pageable) {
+        if(Objects.isNull(pageable)) {
+            pageable = new Pageable();
+        }
         return authorDao.getAllAuthors(pageable);
     }
 
@@ -56,6 +60,7 @@ public class AuthorEjbImpl implements AuthorEjbLocal, AuthorEjbRemote {
      * @param author новый автор.
      */
     @Override
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void addAuthor(Author author) throws CreateOrUpdateException {
         if(Objects.nonNull(author)) {
             authorDao.save(author);
@@ -72,6 +77,7 @@ public class AuthorEjbImpl implements AuthorEjbLocal, AuthorEjbRemote {
      * @throws EntityNotFoundException
      */
     @Override
+    @Transactional(value = Transactional.TxType.REQUIRED)
     public void updateAuthor(Long authorId, Author author) throws EntityNotFoundException, CreateOrUpdateException {
         if(Objects.isNull(author)) {
             throw new CreateOrUpdateException("Can't update author because it is null!");
@@ -83,7 +89,7 @@ public class AuthorEjbImpl implements AuthorEjbLocal, AuthorEjbRemote {
                             repoAuthor = author;
                             repoAuthor.setId(authorId);
                             repoAuthor.setBooks(books);
-                            authorDao.save(repoAuthor);
+                            authorDao.update(repoAuthor);
                         }, () -> {
                             throw new EntityNotFoundException("Author with id = " + author.getId() + " - not found.");
                         }
@@ -97,6 +103,7 @@ public class AuthorEjbImpl implements AuthorEjbLocal, AuthorEjbRemote {
      * @throws EntityNotFoundException
      */
     @Override
+    @Transactional(value = Transactional.TxType.REQUIRED)
     public void deleteAuthor(Long authorId) throws EntityNotFoundException {
         /* Проверяем существование автора с таким ID */
         if(authorDao.existsById(authorId)) {
@@ -106,5 +113,16 @@ public class AuthorEjbImpl implements AuthorEjbLocal, AuthorEjbRemote {
             /* Иначе выбрасываем исключение */
             throw new EntityNotFoundException("Author with id = " + authorId + " - not found.");
         }
+    }
+
+    /**
+     * Проверят существование автора с таким Id.
+     *
+     * @param authorId
+     * @return
+     */
+    @Override
+    public Boolean isAuthorExistsById(Long authorId) {
+        return authorDao.existsById(authorId);
     }
 }

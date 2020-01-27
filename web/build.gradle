@@ -2,7 +2,25 @@ plugins {
     id 'war'
 }
 
+configurations {
+    all*.exclude group: 'javassist', module: 'javassist' // get rid of hibernate-incompatible javassist
+}
+
+apply plugin: 'maven'
+
+uploadArchives{
+    repositories {
+        mavenDeployer {
+            repository(url: "file:/C:/Users/MedaSoft/.m2/repository")
+            pom.version = '1.0'
+            pom.artifactId = 'web'
+            pom.groupId = 'com.mediasoft'
+        }
+    }
+}
+
 group 'com.mediasoft'
+version '1.0'
 
 repositories {
     mavenCentral()
@@ -12,10 +30,12 @@ repositories {
 dependencies {
     //-----------------------------< Javax >--------------------------------------
     // https://mvnrepository.com/artifact/javax/javaee-api
-    implementation group: 'javax', name: 'javaee-api', version: '8.0'
+    providedCompile group: 'javax', name: 'javaee-api', version: '8.0'
+    // https://mvnrepository.com/artifact/javax.faces/javax.faces-api
+    providedCompile group: 'javax.faces', name: 'javax.faces-api', version: '2.3'
 
-    providedCompile group: 'com.mediasoft', name: 'author', version: '1.0-SNAPSHOT'
-    providedCompile group: 'com.mediasoft', name: 'book', version: '1.0-SNAPSHOT'
-    providedCompile group: 'com.mediasoft', name: 'publisher', version: '1.0-SNAPSHOT'
-    providedCompile group: 'com.mediasoft', name: 'common', version: '1.0-SNAPSHOT'
+    providedCompile group: 'com.mediasoft', name: 'author', version: '1.0'
+    providedCompile group: 'com.mediasoft', name: 'book', version: '1.0'
+    providedCompile group: 'com.mediasoft', name: 'publisher', version: '1.0'
+    providedCompile group: 'com.mediasoft', name: 'common', version: '1.0'
 }

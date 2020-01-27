@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+}
+
+apply plugin: 'maven'
+
+uploadArchives{
+    repositories {
+        mavenDeployer {
+            repository(url: "file:/C:/Users/MedaSoft/.m2/repository")
+            pom.version = '1.0'
+            pom.artifactId = 'liquibase'
+            pom.groupId = 'com.mediasoft'
+        }
+    }
+}
+
+group 'com.mediasoft'
+version '1.0'
+
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    //-----------------------------< Javax >--------------------------------------
+    // https://mvnrepository.com/artifact/javax/javaee-api
+    implementation group: 'javax', name: 'javaee-api', version: '8.0'
+
+    //-----------------------------< Postgres >-----------------------------------
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.9'
+
+    //-----------------------------< Liquibase >--------------------------------------
+    // https://mvnrepository.com/artifact/org.liquibase/liquibase-core
+    implementation group: 'org.liquibase', name: 'liquibase-core', version: '3.1.0'
+    runtimeClasspath group: 'org.liquibase', name: 'liquibase-core', version: '3.1.0'
+    compileClasspath group: 'org.liquibase', name: 'liquibase-core', version: '3.1.0'
+    runtime group: 'org.liquibase', name: 'liquibase-core', version: '3.1.0'
+}

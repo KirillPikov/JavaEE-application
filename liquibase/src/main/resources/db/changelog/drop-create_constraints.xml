@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="Pikoff" id="drop_shopping_basket_book___book_fk_constraint">
+        <dropForeignKeyConstraint
+                baseTableName="shopping_basket_book"
+                constraintName="shopping_basket_book___book_fk"/>
+    </changeSet>
+
+    <changeSet author="Pikoff" id="create_shopping_basket_book___book_fk_constraint">
+        <addForeignKeyConstraint baseTableName="shopping_basket_book" baseColumnNames="book_id"
+                                 constraintName="shopping_basket_book___book_fk"
+                                 referencedTableName="book" referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="Pikoff" id="drop_shopping_basket_book___shopping_basket_fk_constraint">
+        <dropForeignKeyConstraint
+                baseTableName="shopping_basket_book"
+                constraintName="shopping_basket_book___shopping_basket_fk"/>
+    </changeSet>
+
+    <changeSet author="Pikoff" id="create_shopping_basket_book___shopping_basket_fk_constraint">
+        <addForeignKeyConstraint baseTableName="shopping_basket_book" baseColumnNames="shopping_basket_id"
+                                 constraintName="shopping_basket_book___shopping_basket_fk"
+                                 referencedTableName="shopping_basket" referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="Pikoff" id="drop_book_author_fk_constraint">
+        <dropForeignKeyConstraint
+                baseTableName="book"
+                constraintName="book_author_fk"/>
+    </changeSet>
+
+    <changeSet author="Pikoff" id="create_book_author_fk_constraint">
+        <addForeignKeyConstraint baseTableName="book" baseColumnNames="author_id"
+                                 constraintName="book_author_fk"
+                                 referencedTableName="author" referencedColumnNames="id"
+                                 onDelete="CASCADE" />
+    </changeSet>
+
+    <changeSet author="Pikoff" id="drop_book_publisher_fk_constraint">
+        <dropForeignKeyConstraint
+                baseTableName="book"
+                constraintName="book_author_fk"/>
+    </changeSet>
+
+    <changeSet author="Pikoff" id="create_book_publisher_fk_constraint">
+        <addForeignKeyConstraint baseTableName="book" baseColumnNames="author_id"
+                                 constraintName="book_author_fk"
+                                 referencedTableName="author" referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="Pikoff" id="drop_warehouse_book___book_fk_constraint">
+        <dropForeignKeyConstraint
+                baseTableName="warehouse_book"
+                constraintName="warehouse_book___book_fk"/>
+    </changeSet>
+
+    <changeSet author="Pikoff" id="create_warehouse_book___book_fk_constraint">
+        <addForeignKeyConstraint baseTableName="warehouse_book" baseColumnNames="book_id"
+                                 constraintName="warehouse_book___book_fk"
+                                 referencedTableName="book" referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="Pikoff" id="drop_warehouse_book___warehouse_fk_constraint">
+        <dropForeignKeyConstraint
+                baseTableName="warehouse_book"
+                constraintName="warehouse_book___warehouse_fk"/>
+    </changeSet>
+
+    <changeSet author="Pikoff" id="create_warehouse_book___warehouse_fk_constraint">
+        <addForeignKeyConstraint baseTableName="warehouse_book" baseColumnNames="warehouse_id"
+                                 constraintName="warehouse_book___warehouse_fk"
+                                 referencedTableName="warehouse" referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+</databaseChangeLog>
